@@ -62,7 +62,7 @@ AGNOSTIC.FACTANAL <- function(df, efa.vars, min.var.no=3, f.no=1) {
             
             ##################
             # Model identifier
-            name <- paste("Variables:", paste(vars, collapse="/"), "||", "F.No:", i, sep="/")
+            name <- paste("Variables:", paste(vars, collapse="/"), "||", "F.No:", k, sep="/")
             
             ################
             # Factor numbers
@@ -102,7 +102,8 @@ AGNOSTIC.FACTANAL <- function(df, efa.vars, min.var.no=3, f.no=1) {
             
             #########################
             # Calculating eigenvalues
-            min.eigenvalue <-  tryCatch(min(apply(L, 2, function(x) sum(x^2))), error=function(err) NA)
+            #min.eigenvalue <-  tryCatch(min(apply(L, 2, function(x) sum(x^2))), error=function(err) NA)
+            min.eigenvalue <-  tryCatch(eigen(cor(df[ ,vars]))$value[f], error=function(err) NA)
             
             model.results <- data.frame(name, factor.no, var.no, var.loadings, max.uniqueness, model.p.val, min.eigenvalue, row.names=NULL)
             efa.results <- rbind(efa.results, model.results)
